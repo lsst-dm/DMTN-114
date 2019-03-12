@@ -5,7 +5,7 @@ We would like to verify that a cloud deployment of the LSST Data Management (DM)
 The Data Release Production involves several components.
 
 \subsection{Datasets} \label{sec:drp-datasets}
-Various sizes are available, from ci_hsc (8 GB) to HSC Public Data Release 1 (~80 TB) to DESC DC2 (1300 TB).
+Various sizes are available, from ci\_hsc (8 GB) to HSC Public Data Release 1 (~80 TB) to DESC DC2 (1300 TB).
 
 The datasets could be hosted on various types of storage, ranging from a shared POSIX-compliant filesystem to an object store, although our code currently supports only the shared filesystem model.
 
@@ -14,7 +14,7 @@ We would want to run the PoC with representative algorithms performing instrumen
 
 If certain pipelines are not yet ready, they can be mocked up or dropped from the processing (if at the tail).
 
-Pipelines generally consume x GB of memory per core, and the initial DRP demonstration workflow using the ci_hsc dataset took about 1 hour to run on x cores. We would expect this to scale approximately linearly with the dataset size.
+Pipelines generally consume x GB of memory per core, and the initial DRP demonstration workflow using the ci\_hsc dataset took about 1 hour to run on x cores. We would expect this to scale approximately linearly with the dataset size.
 
 \subsection{Middleware} \label{sec:drp-middleware}
 We should use the newest version of our processing pipeline tasks using the Generation 3 Middleware ("Gen3"). This comprises:
@@ -32,7 +32,7 @@ At each phase, we would observe wall-clock time, compute efficiency, memory usag
 AWS staff will consult on how best to use and configure AWS services to achieve the goals. They will learn the characteristics of LSST data and workloads to enable them to better estimate potential costs and determine available discounts for LSST use of AWS services. If needed, AWS staff can modify the LSST code base (which is all Open Source) to make it more AWS-compatible.
 
 \subsection{Phase 1: (0.5 month)} \label{sec:phase-1}
-We would start by executing the Feb. 1 Gen3 demonstration on the cloud in a way that is as similar as possible to how we ran it at NCSA. The simplest way to start might be to use pre-allocated EC2 nodes as batch workers for HTCondor. We would use the ci_hsc dataset and run with a shared filesystem at a small scale.
+We would start by executing the Feb. 1 Gen3 demonstration on the cloud in a way that is as similar as possible to how we ran it at NCSA. The simplest way to start might be to use pre-allocated EC2 nodes as batch workers for HTCondor. We would use the ci\_hsc dataset and run with a shared filesystem at a small scale.
 
 \subsection{Phase 2: (0.5 month)} \label{sec:phase-2}
 Move HTCondor to an AWS-specific configuration for compute using the most cost-efficient compute resources. This may involve changing the HTCondor back-end to use Kubernetes and SmartFleet.
