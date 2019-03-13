@@ -14,7 +14,8 @@ We would want to run the PoC with representative algorithms performing instrumen
 
 If certain pipelines are not yet ready, they can be mocked up or dropped from the processing (if at the tail).
 
-Pipelines generally consume 1 to 4 GB of memory per core, and the initial DRP demonstration workflow using the ci\_hsc dataset took about 3 core-hours to run. We would expect this to scale approximately linearly with the dataset size.
+Pipelines generally consume 1 to 4 GB of memory per core, but some tasks may consume considerably more (perhaps 40 GB), and the initial DRP demonstration workflow using the ci\_hsc dataset took about 3 core-hours to run.
+We would expect the CPU consumption to scale approximately linearly with the dataset size.
 
 \subsection{Middleware} \label{sec:drp-middleware}
 We should use the newest version of our processing pipeline tasks using the Generation 3 Middleware ("Gen3"). This comprises:
@@ -24,7 +25,10 @@ We should use the newest version of our processing pipeline tasks using the Gene
 \item and a workflow system based on Pegasus and HTCondor that accepts a definition for a set of pipelines to execute and the data to execute them on (called a "campaign"), generates a graph of all of the processing needed, and manages that processing on a cluster of batch nodes.
 \end{itemize}
 
-The Gen3 Butler Registry is expected to require 3 inserts in one transaction for each dataset produced by each execution of each pipeline task for a total of about 7000 inserts for the ci\_hsc dataset processing. In addition, SELECT queries are issued by the workflow graph generator at a rate of a few per task execution for a total of around 500 SELECTs for the ci\_hsc dataset processing. Pipeline tasks are expected to execute at a typical rate of one per core-minute. The current registry implementation uses SQLite through SQLAlchemy; a more robust implementation will be needed to scale up to large processing jobs.
+The Gen3 Butler Registry is expected to require 3 inserts in one transaction for each dataset produced by each execution of each pipeline task for a total of about 7000 inserts for the ci\_hsc dataset processing.
+In addition, SELECT queries are issued by the workflow graph generator at a rate of a few per task execution for a total of around 500 SELECTs for the ci\_hsc dataset processing.
+Pipeline tasks are expected to execute at a typical rate of one per core-minute, but this is highly variable (ranging from a few seconds to tens of minutes).
+The current registry implementation uses SQLite through SQLAlchemy; a more robust implementation will be needed to scale up to large processing jobs.
 
 \section{Proposed Phases} \label{sec:phases}
 At each phase, we would observe wall-clock time, compute efficiency, memory usage, and other performance parameters. We would test the system at various levels of scaling appropriate to the dataset size. Actual usage of paid resources would be monitored, and appropriate cost/scale relationships would be derived.
