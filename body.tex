@@ -18,7 +18,8 @@ Pipelines generally consume 1 to 4 GB of memory per core, but some tasks may con
 We would expect the CPU consumption to scale approximately linearly with the dataset size.
 
 \subsection{Middleware} \label{sec:drp-middleware}
-We should use the newest version of our processing pipeline tasks using the Generation 3 Middleware ("Gen3"). This comprises:
+We should use the newest version of our processing pipeline tasks using the Generation 3 Middleware ("Gen3").
+This comprises:
 \begin{itemize}
 \item an I/O layer called the Data Butler which includes a database back-end called the Registry that tracks datasets, both read and created,
 \item a command-line utility to execute pipeline tasks that queries the Registry to determine what inputs and outputs are needed,
@@ -31,29 +32,39 @@ Pipeline tasks are expected to execute at a typical rate of one per core-minute,
 The current registry implementation uses SQLite through SQLAlchemy; a more robust implementation will be needed to scale up to large processing jobs.
 
 \section{Proposed Phases} \label{sec:phases}
-At each phase, we would observe wall-clock time, compute efficiency, memory usage, and other performance parameters. We would test the system at various levels of scaling appropriate to the dataset size. Actual usage of paid resources would be monitored, and appropriate cost/scale relationships would be derived.
+At each phase, we would observe wall-clock time, compute efficiency, memory usage, and other performance parameters.
+We would test the system at various levels of scaling appropriate to the dataset size.
+Actual usage of paid resources would be monitored, and appropriate cost/scale relationships would be derived.
 
-AWS staff will consult on how best to use and configure AWS services to achieve the goals. They will learn the characteristics of LSST data and workloads to enable them to better estimate potential costs and determine available discounts for LSST use of AWS services. If needed, AWS staff can modify the LSST code base (which is all Open Source) to make it more AWS-compatible.
+AWS staff will consult on how best to use and configure AWS services to achieve the goals.
+They will learn the characteristics of LSST data and workloads to enable them to better estimate potential costs and determine available discounts for LSST use of AWS services.
+If needed, AWS staff can modify the LSST code base (which is all Open Source) to make it more AWS-compatible.
 
 \subsection{Phase 1: (0.5 month)} \label{sec:phase-1}
-We would start by executing the Feb. 1 Gen3 demonstration on the cloud in a way that is as similar as possible to how we ran it at NCSA. The simplest way to start might be to use pre-allocated EC2 nodes as batch workers for HTCondor. We would use the ci\_hsc dataset and run with a shared filesystem at a small scale.
+We would start by executing the Feb.~1 Gen3 demonstration on the cloud in a way that is as similar as possible to how we ran it at NCSA.
+The simplest way to start might be to use pre-allocated EC2 nodes as batch workers for HTCondor.
+We would use the ci\_hsc dataset and run with a shared filesystem at a small scale.
 
 \subsection{Phase 2: (0.5 month)} \label{sec:phase-2}
-Move HTCondor to an AWS-specific configuration for compute using the most cost-efficient compute resources. This may involve changing the HTCondor back-end to use Kubernetes and SmartFleet.
+Move HTCondor to an AWS-specific configuration for compute using the most cost-efficient compute resources.
+This may involve changing the HTCondor back-end to use Kubernetes and SmartFleet.
 
 \subsection{Phase 3: (1 month)} \label{sec:phase-3}
 Move the Butler Registry onto a cloud-based SQL RDBMS (perhaps Aurora or PostgreSQL).
 
 \subsection{Phase 4: (1 month)} \label{sec:phase-4}
-Move the datasets into S3. Investigate moving Pegasus, HTCondor, and the Butler to an AWS-specific configuration that would provide transparent-to-the-pipelines access to datasets on S3.
+Move the datasets into S3.
+Investigate moving Pegasus, HTCondor, and the Butler to an AWS-specific configuration that would provide transparent-to-the-pipelines access to datasets on S3.
 
 \subsection{Phase 5: (1.5 months)} \label{sec:phase-5}
-Scale up to larger datasets. HSC PDR1 is the prime target for a demonstration at the LSST 2019 Project and Community Workshop from August 12–16, with DESC DC2 as a stretch goal, likely after the August timeframe.
+Scale up to larger datasets.
+HSC PDR1 is the prime target for a demonstration at the LSST 2019 Project and Community Workshop from August 12–16, with DESC DC2 as a stretch goal, likely after the August timeframe.
 
-If the Butler Registry proves to be a bottleneck, investigate alternatives. These include higher-performance non-SQL databases like DynamoDB or ElastiCache, or shared-nothing/reingest mechanisms that would minimize the number of operations on the Registry.
+If the Butler Registry proves to be a bottleneck, investigate alternatives.
+These include higher-performance non-SQL databases like DynamoDB or ElastiCache, or shared-nothing/reingest mechanisms that would minimize the number of operations on the Registry.
 
 \subsection{Phase 6 (optional):} \label{sec:phase-6}
-Investigate monitoring, control (e.g. terminating and restarting some processing), and other operational capabilities.
+Investigate monitoring, control (e.g.~terminating and restarting some processing), and other operational capabilities.
 
 \subsection{Phase 7 (optional):} \label{sec:phase-7}
 Investigate how LSST staff, collaboration members, and science users could use their own AWS accounts to execute DRP-like processing with data-rights-controlled access to LSST datasets stored on S3.
@@ -62,7 +73,8 @@ Investigate how LSST staff, collaboration members, and science users could use t
 Investigate other possibilities for executing workflows using AWS-native tooling.
 
 \section{Reports and Conclusion} \label{sec:reports}
-Reports of each phase executed, including what was accomplished, measurements made, and lessons learned, will be prepared by LSST and AWS staff. Given the cost/scale relationships determined by the PoC, fully discounted cost projections for executing the DRP on AWS would be generated by AWS for comparison with LSST TCO estimates.
+Reports of each phase executed, including what was accomplished, measurements made, and lessons learned, will be prepared by LSST and AWS staff.
+Given the cost/scale relationships determined by the PoC, fully discounted cost projections for executing the DRP on AWS would be generated by AWS for comparison with LSST TCO estimates.
 
 \section{Community Broker} \label{sec:broker}
 LSST will produce an alert stream comprised of approximately 10 million alert packets per night \citedsp{DMTN-102}.
